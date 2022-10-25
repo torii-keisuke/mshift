@@ -1,0 +1,27 @@
+<div class="h-screen">
+  <div class="fixed w-screen bg-white h-24 flex items-center pl-[112px] pr-14">
+    <div class="pt-5 text-8xl text-accent-logo font-bold font-logo tracking-wide">Mshift</div>
+    <div class="ml-auto flex items-center gap-x-8">
+      <%= link_to "ログイン", new_user_session_path, class: "text-lg text-main-blue font-semibold hover:underline font-body" %>
+      <%= link_to "新規登録", new_user_registration_path, class: "block text-center py-5 w-[136px] h-[64px] bg-accent-register text-main-white font-semibold rounded-full" %>
+    </div>
+  </div>
+  <div class="flex justify-center items-center h-full bg-main-bg pt-24 gap-16 xl:gap-20">
+    <div class="flex flex-col gap-y-4">
+      <div class="mb-4 text-main-blue text-2xl xl:text-4xl font-bold">
+        シフト自動振り分けの<br>イベント向けクラウドシステム
+      </div>
+      <div class="text-9xl xl:text-[200px] text-accent-logo font-bold font-logo tracking-wide leading-none">
+        Mshift
+      </div>
+      <div class="mb-10 text-2xl xl:text-[32px] text-main-black leading-8">
+        仕事をランダムに振り分ける際の<br>
+        工数を削減
+      </div>
+      <%= link_to "新規登録", new_user_registration_path, class: "block text-center py-[17px] xl:py-7 w-[360px] xl:w-[480px] h-[60px] xl:h-[90px] bg-accent-register text-2xl xl:text-[32px] text-main-white font-medium rounded-full tracking-[0.2em] xl:tracking-[0.35em] !leading-none" %>
+    </div>
+    <div class="">
+      <%= embedded_svg('fv-image', class: "md:w-[300px] md:h-[300px] xl:w-[500px] xl:h-[500px]") %>
+    </div>
+  </div>
+</div>
