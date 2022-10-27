@@ -1,0 +1,115 @@
+<div>
+  <div>
+    <%= render partial: "layouts/header" %>
+    <aside class="fixed min-w-[184px] w-[184px] h-screen pt-[72px] bg-[#4A5459] z-30" aria-label="Sidebar">
+      <div class="overflow-y-auto">
+        <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+          <%= embedded_svg('shop-image', class: "mr-4") %>
+          <%= link_to "イベント管理", user_events_path(current_user.id), class: "text-main-white" %>
+        </div>
+        <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+          <%= embedded_svg('human-image', class: "mr-4") %>
+          <%= link_to "アカウント管理", "#", class: "text-main-white" %>
+        </div>
+      </div>
+    </aside>
+  </div>
+  <div class="pt-[72px] pl-[184px]">
+    <% if @events.present? %>
+      <div class="pt-10 px-14">
+        <h1 class="mb-10 text-main-black text-2xl">イベント管理</h1>
+        <table class="w-full mb-32">
+          <tr height="48px" class="border-t border-b border-[#CBCBCB] bg-[#F0F0F0]">
+            <th></th>
+            <th>イベント名</th>
+            <th>開催日</th>
+            <th>業務時間</th>
+            <th></th>
+          </tr>
+          <% @events.each do |event| %>
+            <tr height="48px" class="w-full">
+              <th class="px-2 min-w-[144px] w-36">
+                <%= link_to "シフトの設定", user_event_shifts_path(current_user.id, event.id), class: "block py-2 text-center bg-main-blue text-main-white h-8 w-[120px] leading-none rounded-md" %>
+              </th>
+              <th class="px-2 w-[50%]">
+                <%= event.name %>
+              </th>
+              <th class="w-[28%]">
+                <%= event.opening_date&.strftime("%Y/%m/%d") %>
+              </th>
+              <th class="w-[32%]">
+                <div class="flex justify-center">
+                  <%= event.start_time&.strftime("%H:%M") %>
+                  <div class="">~</div>
+                  <%= event.finish_time&.strftime("%H:%M") %>
+                </div>
+              </th>
+              <th class="min-w-[80px] w-[80px]">
+                <%= link_to "編集", "#", class: "text-main-blue" %>
+              </th>
+            </tr>
+          <% end %>
+        </table>
+      </div>
+    <% else %>
+      <div class="flex flex-col justify-center items-center w-full pt-40">
+        <%= embedded_svg('fv-image-2', class: "") %>
+        <p class="mt-3 text-2xl text-main-black">イベントを追加してください</p>
+      </div>
+    <% end %>
+    <div class="fixed bottom-0 w-full h-[88px] bg-main-white border-t-2 border-line-100 z-20">
+      <!-- Modal toggle -->
+      <button class="block ml-14 py-8 text-xl text-main-blue leading-none" type="button" data-modal-toggle="defaultModal">
+        イベントを追加する
+      </button>
+      <!-- Main modal -->
+    </div>
+  </div>
+</div>
+
+<div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
+  <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
+    <!-- Modal content -->
+    <div class="relative bg-white shadow">
+      <!-- Modal header -->
+      <div class="py-2 border-b">
+        <button type="button" class="absolute left-8 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="defaultModal">
+          <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+          </svg>
+          <span class="sr-only">Close modal</span>
+        </button>
+        <div class="text-center text-main-black text-xl">イベントを追加する</div>
+      </div>
+      <!-- Modal body -->
+      <%= form_with model: @event, url: user_events_path(current_user.id), data: { turbo: false } do |f| %>
+        <div class="p-8">
+          <div class="mb-6">
+            <%= f.label :name, "イベント名", class: "block mb-2 text-main-black" %>
+            <%= f.text_field :name, placeholder: "(例)三重大学祭〜繋笑〜", class: "w-full border-line-100 rounded-md placeholder-line-100" %>
+          </div>
+          <div class="mb-6">
+            <%= f.label :opening_date, "開催日", class: "block mb-2 text-main-black" %>
+            <%= f.date_field :opening_date, class: "border-line-100 rounded-md" %>
+          </div>
+          <div class="mb-6">
+            <%= f.label :start_time, "業務時間", class: "block mb-2 text-main-black" %>
+            <div class="flex items-center gap-2 w-full">
+              <%= f.time_select :start_time, {include_blank: true, minute_step: 30, ignore_date: true}, class: "block w-2/5 h-10 text-center text-main-black border-line-100 rounded-md" %>
+              <div class="w-1/5 text-center text-line-100">〜</div>
+              <%= f.time_select :finish_time, {include_blank: true, minute_step: 30, ignore_date: true}, class: "block w-2/5 h-10 text-center text-main-black border-line-100 rounded-md" %>
+            </div>
+          </div>
+          <div class="">
+            <%= f.label :interval, "シフトの単位時間", class: "block mb-2 text-main-black" %>
+            <%= f.select :interval, Event.intervals.keys.map { |k| [t("enum.event.interval.#{k}"), k] }, {}, class: "border-line-100 rounded-md" %>
+          </div>
+        </div>
+        <!-- Modal footer -->
+        <div class="flex items-center pr-10 pb-6">
+          <%= f.submit "追加する", class: "block text-center ml-auto w-[120px] h-8 bg-accent-logo text-main-white rounded-md" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

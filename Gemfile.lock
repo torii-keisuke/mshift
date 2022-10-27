@@ -107,6 +107,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    enum_help (0.0.19)
+      activesupport (>= 3.0.0)
     erubi (1.11.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -242,6 +244,7 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise
+  enum_help
   jbuilder
   jsbundling-rails
   mysql2 (~> 0.5)

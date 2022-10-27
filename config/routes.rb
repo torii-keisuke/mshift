@@ -12,4 +12,17 @@ Rails.application.routes.draw do
   root "about_app#index"
 
   resources :about_app, only: :index
+  resources :users, only: [:edit, :update] do
+    resources :events, only: [:index, :create, :edit, :update, :destroy] do
+      resources :shifts, only: [:index, :create, :edit, :update, :destroy]
+      resources :members, only: [:index, :create, :edit, :update, :destroy]
+      resources :members_schedules
+      resources :works, only: [:index, :create, :edit, :update, :destroy]
+      resources :works_schedules do
+        collection do
+          get :edit_works_schedules
+        end
+      end
+    end
+  end
 end

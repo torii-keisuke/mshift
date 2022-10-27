@@ -1,0 +1,30 @@
+<aside class="fixed min-w-[184px] w-[184px] h-screen pt-[72px] bg-[#4A5459] z-30" aria-label="Sidebar">
+  <div class="overflow-y-auto">
+    <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+      <%= embedded_svg('shift-image', class: "mr-4") %>
+      <%= link_to "シフト表", user_event_shifts_path(current_user.id, @event.id), class: "text-main-white" %>
+    </div>
+    <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+      <%= embedded_svg('staff-image', class: "mr-4") %>
+      <%= link_to "スタッフ管理", user_event_members_path(current_user.id, @event.id), class: "text-main-white" %>
+    </div>
+    <!--
+    <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+      <%= embedded_svg('document-image', class: "mr-4") %>
+      <%= link_to "シフト管理", "#", class: "text-main-white" %>
+    </div>
+    -->
+    <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+      <%= embedded_svg('work-image', class: "mr-4") %>
+      <%= link_to "仕事管理", user_event_works_path(current_user.id, @event.id), class: "text-main-white" %>
+    </div>
+    <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+      <%= embedded_svg('shop-image', class: "mr-4") %>
+      <%= link_to "イベント管理", user_events_path(current_user.id), class: "text-main-white" %>
+    </div>
+    <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+      <%= embedded_svg('human-image', class: "mr-4") %>
+      <%= link_to "アカウント管理", "#", class: "text-main-white" %>
+    </div>
+  </div>
+</aside>

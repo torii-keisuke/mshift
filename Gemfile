@@ -79,3 +79,4 @@ end
 
 gem "devise"
 gem "roo"
+gem "enum_help"

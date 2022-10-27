@@ -1,0 +1,2 @@
+class MembersSchedule < ApplicationRecord
+end

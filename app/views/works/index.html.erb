@@ -1,0 +1,68 @@
+<div>
+  <div>
+    <%= render partial: "layouts/header" %>
+    <%= render partial: "layouts/sidebar" %>
+  </div>
+  <div class="pt-[72px] pl-[184px]" data-controller="hello">
+    <div class="px-14">
+      <h1 class="mt-10 text-2xl font-bold">仕事管理</h1>
+      <div class="">
+        <% if @event.works.present? %>
+          <div class="flex justify-between items-center">
+            <div class="">人員が必要な時間帯を選択してください</div>
+            <%= link_to "修正する", edit_works_schedules_user_event_works_schedules_path(current_user.id, @event.id), class: "block text-center ml-auto mb-4 py-1 w-[104px] h-8 text-white font-bold bg-[#818181] rounded-md" %>
+          </div>
+          <div class="pb-8 border-b-2 border-line-100">
+            <%= form_with model: @works_schedule, url: user_event_works_schedules_path(current_user.id, @event.id), method: :post, data: { turbo: false } do |f| %>
+              <div class="w-full overflow-x-scroll border-x-2">
+                <table class="border-2">
+                  <tr>
+                    <th width="120px" height="32px" class="border-r-2 border-b-2 min-w-[120px]"></th>
+                    <% @schedules.each do |schedule| %>
+                      <th width="120px" height="32px" class="border-r-2 border-b-2 leading-none min-w-[72px] w-[72px]"><%= schedule.time_zone %></th>
+                    <% end %>
+                  </tr>
+                  <% @works.each do |work| %>
+                    <tr height="32px" width="120px" align="center" class="text-base font-bold border-b-2">
+                      <td class="border-r-2 text-blue-500 hover:underline">
+                        <%= link_to work.name, edit_user_event_work_path(current_user.id, @event.id, work.id) %>
+                      </td>
+                      <% @schedules.each do |schedule| %>
+                        <% if WorksSchedule.exists?(schedule_id: schedule.id, work_id: work.id) %>
+                          <td class="border-r-2 bg-main-blue">
+                            <div class="text-white font-bold">必要</div>
+                          </td>
+                        <% else %>
+                          <td class="border-r-2 pb-1">
+                            <%= f.check_box :schedule_ids, { multiple: true, include_hidden: false }, [work.id, schedule.id] %>
+                          </td>
+                        <% end %>
+                      <% end %>
+                    </tr>
+                  <% end %>
+                </table>
+              </div>
+              <div class="pt-20">
+                <%= f.submit "送信", class: "block mb-10 mx-auto text-white font-bold bg-blue-600 px-8 py-3 rounded hover:bg-blue-500 ease-in duration-200" %>
+              </div>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="flex flex-col justify-center items-center w-full pt-10">
+            <%= embedded_svg('fv-work-member-image', class: "") %>
+            <p class="mt-3 text-2xl text-main-black">イベントを追加してください</p>
+          </div>
+        <% end %>
+        <div class="pt-8">
+          <%= form_with model: @work, url: user_event_works_path(current_user.id, @event.id) do |f| %>
+            <%= f.label :name, "仕事を追加する", class: "block mb-6" %>
+            <div class="flex gap-[104px]">
+              <%= f.text_field :name, placeholder: "（例）正門警備①", class: "w-full border-line-100 rounded-md placeholder-line-100" %>
+              <%= f.submit "追加する", class: "block w-32 h-10 text-main-white bg-accent-logo rounded-md cursor-pointer" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
