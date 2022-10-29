@@ -26,6 +26,10 @@ class WorksController < ApplicationController
 
   end
 
+  def destroy
+
+  end
+
   private
 
   def work_params(event_id)

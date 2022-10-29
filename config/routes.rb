@@ -14,9 +14,22 @@ Rails.application.routes.draw do
   resources :about_app, only: :index
   resources :users, only: [:edit, :update] do
     resources :events, only: [:index, :create, :edit, :update, :destroy] do
-      resources :shifts, only: [:index, :create, :edit, :update, :destroy]
-      resources :members, only: [:index, :create, :edit, :update, :destroy]
-      resources :members_schedules
+      resources :shifts, only: [:index, :create, :edit, :update, :destroy] do
+        collection do
+          delete :remove_all_shifts
+        end
+      end
+      resources :members, only: [:index, :create, :edit, :update, :destroy] do
+        collection do
+          post :import
+          delete :remove_member_list
+        end
+      end
+      resources :members_schedules do
+        collection do
+          get :edit_members_schedules
+        end
+      end
       resources :works, only: [:index, :create, :edit, :update, :destroy]
       resources :works_schedules do
         collection do
