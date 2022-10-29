@@ -25,10 +25,4 @@ class WorksSchedulesController < ApplicationController
       render action: :edit_works_schedules
     end
   end
-
-  private
-
-  def works_schedules_params
-
-  end
 end

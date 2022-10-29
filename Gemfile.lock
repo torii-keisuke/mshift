@@ -82,6 +82,9 @@ GEM
     bootsnap (1.13.0)
       msgpack (~> 1.2)
     builder (3.2.4)
+    bullet (7.0.3)
+      activesupport (>= 3.0.0)
+      uniform_notifier (~> 1.11)
     capybara (3.37.1)
       addressable
       matrix
@@ -107,6 +110,8 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
+    dropzonejs-rails (0.8.5)
+      rails (> 3.1)
     enum_help (0.0.19)
       activesupport (>= 3.0.0)
     erubi (1.11.0)
@@ -213,6 +218,7 @@ GEM
       railties (>= 6.0.0)
     tzinfo (2.0.5)
       concurrent-ruby (~> 1.0)
+    uniform_notifier (1.16.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     web-console (4.2.0)
@@ -240,10 +246,12 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootsnap
+  bullet
   capybara
   cssbundling-rails
   debug
   devise
+  dropzonejs-rails
   enum_help
   jbuilder
   jsbundling-rails
