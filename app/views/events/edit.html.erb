@@ -1,0 +1,41 @@
+<div>
+  <%= render partial: "layouts/header" %>
+  <%= render partial: "layouts/sidebar" %>
+</div>
+<div class="pt-[72px] pl-[184px]">
+  <div class="px-14">
+    <%= link_to user_events_path(current_user.id), class: "block mt-10 text-main-blue leading-none" do %>
+      <div class="flex gap-x-2 w-fit stroke-main-blue hover:text-main-bluehover hover:stroke-main-bluehover">
+        <%= embedded_svg('back-image', class: "") %>
+        <div>戻る</div>
+      </div>
+    <% end %>
+    <h1 class="my-6 text-2xl font-bold"><%= @event.name %>の編集</h1>
+    <div class="pb-8">
+      <%= form_with model: @event, url: user_event_path(current_user.id, @event.id), method: :patch, data: { turbo: false } do |f| %>
+        <div class="mb-6">
+          <%= f.label :name, "イベント名", class: "block mb-2 text-main-black" %>
+          <%= f.text_field :name, class: "w-full border-line-100 rounded-md placeholder-line-100" %>
+        </div>
+        <div class="mb-6">
+          <%= f.label :opening_date, "開催日", class: "block mb-2 text-main-black" %>
+          <%= f.date_field :opening_date, class: "border-line-100 rounded-md" %>
+        </div>
+        <div class="mb-8">
+          <%= f.label :start_time, "業務時間", class: "block mb-2 text-main-black" %>
+          <div class="flex items-center gap-2">
+            <%= f.time_select :start_time, {include_blank: true, minute_step: 30, ignore_date: true}, class: "block w-20 max-w-20 h-10 text-center text-main-black border-line-100 rounded-md" %>
+            <div class="w-8 text-center text-line-100">〜</div>
+            <%= f.time_select :finish_time, {include_blank: true, minute_step: 30, ignore_date: true}, class: "block w-20 max-w-20 h-10 text-center text-main-black border-line-100 rounded-md" %>
+          </div>
+        </div>
+        <div class="">
+          <%= f.submit "保存する", class: "block ml-auto w-32 h-10 text-main-white bg-main-blue rounded-md cursor-pointer  main-shadow hover:bg-main-bluehover" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="fixed bottom-0 left-[184px] w-full h-[88px] bg-main-white border-t-2 border-line-100 z-20">
+    <%= link_to "イベントを削除する", user_event_path(current_user.id, @event.id), class: "block my-7 mx-16 w-fit text-xl text-[#FF764A] hover:underline" %>
+  </div>
+</div>

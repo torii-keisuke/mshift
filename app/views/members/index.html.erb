@@ -4,31 +4,41 @@
     <%= render partial: "layouts/sidebar" %>
   </div>
   <div class="pt-[72px] pl-[184px] pb-[88px]">
-    <div class="px-14">
+    <div class="px-14 pb-14">
       <h1 class="my-10 text-2xl font-bold">スタッフ管理</h1>
       <% if @event.members.present? %>
-        <div class="w-full h-[400px] lg:h-[580px] overflow-scroll">
+        <div class="w-full overflow-x-scroll">
         <table class="w-full border-y-2">
-          <tr class="">
-            <th width="120px" height="48px" class="bg-[#EBEBEB] border-r-2 border-b-2 leading-none min-w-[120px]">氏名</th>
-            <th width="120px" height="48px" class="bg-[#EBEBEB] border-r-2 border-b-2 leading-none min-w-[120px]">学年</th>
-            <th width="120px" height="48px" class="bg-[#EBEBEB] border-r-2 border-b-2 leading-none min-w-[120px]">部局</th>
-            <th width="120px" height="48px" class="bg-[#EBEBEB] border-r-2 border-b-2 leading-none min-w-[120px]">役職・担当</th>
+          <tr height="48px" class="">
+            <th class="w-[36%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
+              氏名
+            </th>
+            <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
+              学年
+            </th>
+            <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
+              部局
+            </th>
+            <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
+              役職・担当
+            </th>
+            <th class="w-[10%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]"></th>
           </tr>
           <% @members.each do |member| %>
-            <tr height="32px" width="120px" align="center" class="text-base font-bold border-b-2">
-              <td height="64px" class="text-blue-500 hover:underline">
-                <%= link_to member.name, edit_user_event_member_path(current_user.id, @event.id, member.id) %>
+            <tr height="64px" align="center" class="w-full text-base font-bold text-main-black border-b-2">
+              <td>
+                <%= member.name %>
               </td>
-              <td height="64px" class="">
+              <td>
                 <%= member.grade %>
               </td>
-              <td height="64px" class="">
+              <td>
                 <%= member.department %>
               </td>
-              <td height="64px" class="">
+              <td>
                 <%= member.position %>
               </td>
+              <td><%= link_to "編集", edit_user_event_member_path(current_user.id, @event.id, member.id), class: "text-main-blue hover:underline" %></td>
             </tr>
           <% end %>
         </table>
@@ -41,15 +51,16 @@
       <% end %>
       <div class="fixed bottom-0 left-[184px] w-full h-[88px] bg-main-white border-t-2 border-line-100 z-20">
         <!-- Modal toggle -->
-        <button class="block ml-14 py-8 text-xl text-main-blue leading-none" type="button" data-modal-toggle="defaultModal">
+        <button class="block ml-14 py-8 text-xl text-main-blue leading-none hover:underline" type="button" data-modal-toggle="defaultModal">
           スタッフを追加する
         </button>
-        <!-- Main modal -->
+        <%= link_to "スタッフのシフトを設定する", user_event_members_schedules_path(current_user.id, @event.id), class: "absolute right-[296px] bottom-[22px] py-2 px-4 h-10 w-[240px] text-main-white bg-main-blue rounded-md main-shadow hover:bg-main-bluehover" %>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Main modal -->
 <div id="defaultModal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full justify-center items-center">
   <div class="relative p-4 w-full max-w-2xl h-full md:h-auto">
     <!-- Modal content -->
@@ -114,7 +125,7 @@
             </div>
             <!-- Modal footer -->
             <div class="flex items-center pr-10 pb-6">
-              <%= f.submit "追加する", class: "block text-center ml-auto w-[120px] h-8 bg-accent-logo text-main-white rounded-md" %>
+              <%= f.submit "追加する", class: "block text-center ml-auto w-[120px] h-8 bg-accent-logo text-main-white rounded-md main-shadow hover:bg-main-blue" %>
             </div>
           <% end %>
         </div>

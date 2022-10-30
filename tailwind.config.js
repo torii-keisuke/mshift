@@ -19,6 +19,9 @@ module.exports = {
           white: "#FFFFFF",
           black: "#333333",
           blue: "#27B1FF",
+          bluehover: "#5AC4FF",
+          red: "#FF764A",
+          redhover: "#FF9472",
           bg: "#CFEEFF",
         },
         line: {

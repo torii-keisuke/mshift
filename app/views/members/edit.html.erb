@@ -1,0 +1,41 @@
+<div>
+  <%= render partial: "layouts/header" %>
+  <%= render partial: "layouts/sidebar" %>
+</div>
+<div class="pt-[72px] pl-[184px] pb-[88px]">
+  <div class="px-14 pb-14">
+    <%= link_to user_event_members_path(current_user.id, @event.id), class: "block mt-10 text-main-blue leading-none" do %>
+      <div class="flex gap-x-2 w-fit stroke-main-blue hover:text-main-bluehover hover:stroke-main-bluehover">
+        <%= embedded_svg('back-image', class: "") %>
+        <div>戻る</div>
+      </div>
+    <% end %>
+    <h1 class="my-6 text-2xl font-bold"><%= @member.name %>の管理</h1>
+    <div class="w-full">
+      <%= form_with model: @member, url: user_event_member_path(current_user.id, @event.id, @member.id), method: :patch, data: { turbo: false } do |f| %>
+        <div class="mb-6">
+          <%= f.label :grade, "学年", class: "block mb-2 text-main-black" %>
+          <%= f.text_field :grade, class: "w-full border-line-100 rounded-md placeholder-line-100" %>
+        </div>
+        <div class="mb-6">
+          <%= f.label :name, "氏名", class: "block mb-2 text-main-black" %>
+          <%= f.text_field :name, class: "w-full border-line-100 rounded-md placeholder-line-100" %>
+        </div>
+        <div class="mb-6">
+          <%= f.label :department, "部局", class: "block mb-2 text-main-black" %>
+          <%= f.text_field :department, class: "w-full border-line-100 rounded-md placeholder-line-100" %>
+        </div>
+        <div class="mb-8">
+          <%= f.label :position, "役職・担当", class: "block mb-2 text-main-black" %>
+          <%= f.text_field :position, class: "w-full border-line-100 rounded-md placeholder-line-100" %>
+        </div>
+        <div class="">
+          <%= f.submit "保存する", class: "block text-center ml-auto w-[120px] h-10 bg-accent-logo text-main-white rounded-md main-shadow hover:bg-main-blue cursor-pointer" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="fixed bottom-0 left-[184px] w-full h-[88px] bg-main-white border-t-2 border-line-100 z-20">
+    <%= link_to "スタッフを削除する", user_event_member_path(current_user.id, @event.id, @member.id), class: "block my-7 mx-16 w-fit text-xl text-[#FF764A] hover:underline" %>
+  </div>
+</div>
