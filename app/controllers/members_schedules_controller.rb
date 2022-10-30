@@ -14,7 +14,7 @@ class MembersSchedulesController < ApplicationController
     time_zones&.each do |time_zone|
       MembersSchedule.create(member_id: time_zone.split[0], schedule_id: time_zone.split[1], event_id: event.id )
     end
-    redirect_to user_event_members_path(current_user.id, event.id)
+    redirect_to user_event_members_schedules_path(current_user.id, event.id)
   end
 
   def edit_members_schedules

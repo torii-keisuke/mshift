@@ -3,14 +3,14 @@
     <%= render partial: "layouts/header" %>
     <aside class="fixed min-w-[184px] w-[184px] h-screen pt-[72px] bg-[#4A5459] z-30" aria-label="Sidebar">
       <div class="overflow-y-auto">
-        <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+        <%= link_to user_events_path(current_user.id), class: "flex items-center h-12 pl-4 hover:bg-[#6C7275] text-main-white" do %>
           <%= embedded_svg('shop-image', class: "mr-4") %>
-          <%= link_to "イベント管理", user_events_path(current_user.id), class: "text-main-white" %>
-        </div>
-        <div class="flex items-center h-12 pl-4 hover:bg-[#6C7275]">
+          <div class="">イベント管理</div>
+        <% end %>
+        <%= link_to "#", class: "flex items-center h-12 pl-4 hover:bg-[#6C7275] text-main-white" do %>
           <%= embedded_svg('human-image', class: "mr-4") %>
-          <%= link_to "アカウント管理", "#", class: "text-main-white" %>
-        </div>
+        <div class="">アカウント管理</div>
+        <% end %>
       </div>
     </aside>
   </div>
@@ -29,7 +29,7 @@
           <% @events.each do |event| %>
             <tr height="48px" class="w-full">
               <th class="px-2 min-w-[144px] w-36">
-                <%= link_to "シフトの設定", user_event_shifts_path(current_user.id, event.id), class: "block py-2 text-center bg-main-blue text-main-white h-8 w-[120px] leading-none rounded-md" %>
+                <%= link_to "シフトの設定", user_event_shifts_path(current_user.id, event.id), class: "block py-2 text-center bg-main-blue text-main-white h-8 w-[120px] leading-none rounded-md hover:bg-main-bluehover main-shadow" %>
               </th>
               <th class="px-2 w-[50%]">
                 <%= event.name %>
@@ -45,7 +45,7 @@
                 </div>
               </th>
               <th class="min-w-[80px] w-[80px]">
-                <%= link_to "編集", "#", class: "text-main-blue" %>
+                <%= link_to "編集", edit_user_event_path(current_user.id, event.id), class: "text-main-blue hover:underline" %>
               </th>
             </tr>
           <% end %>
@@ -59,7 +59,7 @@
     <% end %>
     <div class="fixed bottom-0 w-full h-[88px] bg-main-white border-t-2 border-line-100 z-20">
       <!-- Modal toggle -->
-      <button class="block ml-14 py-8 text-xl text-main-blue leading-none" type="button" data-modal-toggle="defaultModal">
+      <button class="block ml-14 py-8 text-xl text-main-blue leading-none hover:underline" type="button" data-modal-toggle="defaultModal">
         イベントを追加する
       </button>
       <!-- Main modal -->
@@ -107,7 +107,7 @@
         </div>
         <!-- Modal footer -->
         <div class="flex items-center pr-10 pb-6">
-          <%= f.submit "追加する", class: "block text-center ml-auto w-[120px] h-8 bg-accent-logo text-main-white rounded-md" %>
+          <%= f.submit "追加する", class: "block text-center ml-auto w-[120px] h-8 bg-main-blue text-main-white rounded-md main-shadow hover:bg-main-bluehover" %>
         </div>
       <% end %>
     </div>

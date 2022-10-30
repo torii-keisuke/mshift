@@ -31,11 +31,18 @@ class MembersController < ApplicationController
   end
 
   def edit
-
+    @event = Event.find(params[:event_id])
+    @member = Member.find(params[:id])
   end
 
   def update
-
+    @event = Event.find(params[:event_id])
+    @member = Member.find(params[:id])
+    if @member.update(member_params(@event.id))
+      redirect_to user_event_members_path(current_user.id, @event.id)
+    else
+      render action: :edit
+    end
   end
 
   def destroy
