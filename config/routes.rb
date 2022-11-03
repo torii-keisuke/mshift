@@ -28,12 +28,14 @@ Rails.application.routes.draw do
       resources :members_schedules do
         collection do
           get :edit_members_schedules
+          delete :destroy_together
         end
       end
       resources :works, only: [:index, :create, :edit, :update, :destroy]
       resources :works_schedules do
         collection do
           get :edit_works_schedules
+          delete :destroy_together
         end
       end
     end

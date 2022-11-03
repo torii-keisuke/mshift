@@ -4,5 +4,11 @@
 
 import { application } from "./application"
 
+import FileFormController from "./file_form_controller"
+application.register("file-form", FileFormController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import SearchFormController from "./search_form_controller"
+application.register("search-form", SearchFormController)

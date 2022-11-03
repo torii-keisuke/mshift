@@ -25,4 +25,16 @@ class WorksSchedulesController < ApplicationController
       render action: :edit_works_schedules
     end
   end
+
+  def destroy_together
+    event = Event.find(params[:event_id])
+    time_zones = params[:works_schedule_ids]
+    ActiveRecord::Base.transaction do
+      time_zones.each do |time_zone|
+        works_schedule = WorksSchedule.find_by(work_id: time_zone.split[0], schedule_id: time_zone.split[1], event_id: event.id)
+        works_schedule.destroy!
+      end
+    end
+    redirect_to edit_works_schedules_user_event_works_schedules_path(current_user.id, event.id)
+  end
 end

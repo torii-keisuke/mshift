@@ -29,6 +29,28 @@ class ShiftsController < ApplicationController
     redirect_to user_event_shifts_path(current_user.id, event.id)
   end
 
+  def edit
+    @event = Event.find(params[:event_id])
+    @shift = Shift.find(params[:id])
+    @member = Member.find(@shift.member_id)
+    @schedule = Schedule.find(@shift.schedule_id)
+    @work = Work.find(@shift.work_id)
+    @q = @event.members.ransack(params[:q])
+    @members = @q.result.pluck(:name)
+  end
+
+  def update
+    shift = Shift.find(params[:id])
+    event = Event.find(params[:event_id])
+    member = Member.find_by(name: params[:shift][:member_name])
+    if shift.update(member_id: member.id)
+      flash[:notice] = "シフトを修正しました"
+      redirect_to user_event_shifts_path(current_user.id, event.id)
+    else
+      flash.now[:alert] = "シフトの編集に失敗しました"
+    end
+  end
+
   def remove_all_shifts
     event = Event.find(params[:event_id])
     shifts = Shift.where(event_id: event.id)

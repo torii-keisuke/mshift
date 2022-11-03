@@ -1,0 +1,56 @@
+<div>
+  <%= render partial: "layouts/header" %>
+  <aside class="fixed min-w-[184px] w-[184px] h-screen pt-[72px] bg-[#4A5459] z-30" aria-label="Sidebar">
+    <div class="overflow-y-auto">
+      <%= link_to user_event_shifts_path(current_user.id, @event.id), class: "flex items-center h-12 pl-4 hover:bg-[#6C7275] text-main-white" do %>
+        <%= embedded_svg('shift-image', class: "mr-4") %>
+        <div>シフト表</div>
+      <% end %>
+      <button class="flex items-center w-full h-12 pl-4 hover:bg-[#6C7275] text-main-white" type="button" data-modal-toggle="defaultModal">
+        <%= embedded_svg('staff-image', class: "mr-4") %>
+        スタッフ管理
+      </button>
+      <button class="flex items-center w-full h-12 pl-4 hover:bg-[#6C7275] text-main-white" type="button" data-modal-toggle="defaultModal">
+        <%= embedded_svg('work-image', class: "mr-4") %>
+        仕事管理
+      </button>
+      <%= link_to user_events_path(current_user.id), class: "flex items-center h-12 pl-4 hover:bg-[#6C7275] text-main-white" do %>
+        <%= embedded_svg('shop-image', class: "mr-4") %>
+        <div>イベント管理</div>
+      <% end %>
+      <%= link_to "#", class: "flex items-center h-12 pl-4 hover:bg-[#6C7275] text-main-white" do %>
+        <%= embedded_svg('human-image', class: "mr-4") %>
+        <div>アカウント管理</div>
+      <% end %>
+    </div>
+  </aside>
+</div>
+<div class="pt-[72px] pl-[184px]">
+  <div class="pt-8 mb-10">
+    <div class="px-14">
+      <%= link_to user_event_shifts_path(current_user.id, @event.id), class: "block mb-8 text-main-blue leading-none" do %>
+        <div class="flex gap-x-2 w-fit stroke-main-blue hover:text-main-bluehover hover:stroke-main-bluehover">
+          <%= embedded_svg('back-image', class: "") %>
+          <div>戻る</div>
+        </div>
+      <% end %>
+      <h1 class="mb-8 text-main-black text-2xl"><%= @work.name %>　<%= @schedule.time_zone %>~　の編集</h1>
+      <%= search_form_for @q, url: edit_user_event_shift_path(current_user.id, @event.id) do |f| %>
+        <%= render partial: "layouts/search_form", locals: { f: f } %>
+      <% end %>
+      <div class="mb-8 px-8">
+        <%= form_with model: @shift, url: user_event_shift_path(current_user.id, @event.id, @shift.id), data: { turbo: false } do |f| %>
+          <div class="flex items-end gap-[88px] mt-12">
+            <div class="w-full">
+              <%= f.label :member_name, "スタッフの変更(変更前：#{@member.name})", class: "block mb-6 text-xl" %>
+              <%= f.select :member_name, @members, { include_blank: "選択する" }, class: "block w-full border border-line-100 rounded-md" %>
+            </div>
+            <div class="min-w-32">
+              <%= f.submit "変更する", class: "block py-2 w-32 h-10 text-center text-main-white bg-main-blue rounded-md main-shadow hover:bg-main-bluehover" %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

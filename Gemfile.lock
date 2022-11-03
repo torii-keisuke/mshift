@@ -110,8 +110,6 @@ GEM
       railties (>= 4.1.0)
       responders
       warden (~> 1.2.3)
-    dropzonejs-rails (0.8.5)
-      rails (> 3.1)
     enum_help (0.0.19)
       activesupport (>= 3.0.0)
     erubi (1.11.0)
@@ -185,6 +183,10 @@ GEM
       thor (~> 1.0)
       zeitwerk (~> 2.5)
     rake (13.0.6)
+    ransack (3.2.1)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     regexp_parser (2.6.0)
     reline (0.3.1)
       io-console (~> 0.5)
@@ -251,13 +253,13 @@ DEPENDENCIES
   cssbundling-rails
   debug
   devise
-  dropzonejs-rails
   enum_help
   jbuilder
   jsbundling-rails
   mysql2 (~> 0.5)
   puma (~> 5.0)
   rails (~> 7.0.4)
+  ransack
   roo
   selenium-webdriver
   sprockets-rails
