@@ -3,9 +3,14 @@ class MembersController < ApplicationController
 
   def index
     @event = Event.find(params[:event_id])
-    @members = Member.where(event_id: @event.id)
+    @q = Member.where(event_id: @event.id).ransack(params[:q])
+    @members = @q.result
     @member = Member.new
     @schedules = Schedule.where(event_id: @event.id)
+    if params[:format] == "excel"
+      template_file = "public/download_file/Mshift-テンプレ名簿-20xx年度.xlsx"
+      send_file template_file
+    end
   end
 
   def import
@@ -16,8 +21,15 @@ class MembersController < ApplicationController
     else
       file = params[:file]
     end
-    Member.import(file, event.id)
-    redirect_to user_event_members_path(current_user.id, event.id)
+    accept_format = ".xlsx"
+    if File.extname(params[:member][:file].original_filename) == accept_format
+      Member.import(file, event.id)
+      flash[:notice] = "ファイルをアップロードしました"
+      redirect_to user_event_members_path(current_user.id, event.id)
+    else
+      flash[:alert] = "ファイルのアップロードに失敗しました"
+      redirect_to user_event_members_path(current_user.id, event.id)
+    end
   end
 
   def create

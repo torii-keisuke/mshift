@@ -17,32 +17,37 @@
       人員が不要な時間を選択してください
     </div>
     <div class="w-full overflow-x-scroll border-x border-line-100">
-      <table class="border border-line-100">
-        <tr width="120px" height="32px">
-          <th class="bg-[#EBEBEB] border-r border-b border-line-100 min-w-[120px]"></th>
-          <% @schedules.each do |schedule| %>
-            <th class="bg-[#EBEBEB] border-r border-b border-line-100 text-main-black leading-none min-w-[72px] w-[72px]">
-              <%= schedule.time_zone %>
-            </th>
-          <% end %>
-        </tr>
-        <% @works.each do |work| %>
-          <tr height="32px" width="120px" align="center" class="text-base font-bold border-b border-line-100">
-            <td class="px-1 text-left border-r border-line-100 text-main-black">
-              <%= work.name %>
-            </td>
+      <%= form_with model: @works_schedule, url: destroy_together_user_event_works_schedules_path(current_user.id, @event.id), method: :delete, data: { turbo: false } do |f| %>
+        <table class="border border-line-100">
+          <tr width="120px" height="32px">
+            <th class="bg-[#EBEBEB] border-r border-b border-line-100 min-w-[120px]"></th>
             <% @schedules.each do |schedule| %>
-              <% if WorksSchedule.exists?(schedule_id: schedule.id, work_id: work.id) %>
-                <td class="border-r border-line-100 bg-main-blue">
-                  <%= button_to "必要", user_event_works_schedule_path(current_user.id, @event.id, work.id, schedule.id), method: :delete, class: "block w-full h-full text-main-white" %>
-                </td>
-              <% else %>
-                <td class="border-r border-line-100 pb-1 bg-[#A9A9A9]"></td>
-              <% end %>
+              <th class="bg-[#EBEBEB] border-r border-b border-line-100 text-main-black leading-none min-w-[72px] w-[72px]">
+                <%= schedule.time_zone %>
+              </th>
             <% end %>
           </tr>
-        <% end %>
-      </table>
+          <% @works.each do |work| %>
+            <tr height="32px" width="120px" align="center" class="text-base font-bold border-b border-line-100">
+              <td class="px-1 text-left border-r border-line-100 text-main-black">
+                <%= work.name %>
+              </td>
+              <% @schedules.each do |schedule| %>
+                <% if WorksSchedule.exists?(schedule_id: schedule.id, work_id: work.id) %>
+                  <td class="pb-1 border-r border-line-100">
+                    <%= f.check_box :works_schedule_ids, { multiple: true, include_hidden: false, class: "", }, [work.id, schedule.id] %>
+                  </td>
+                <% else %>
+                  <td class="border-r border-line-100 pb-1 bg-[#A9A9A9]"></td>
+                <% end %>
+              <% end %>
+            </tr>
+          <% end %>
+        </table>
+        <div class="fixed bottom-0 left-[184px] py-6 w-full h-[88px] bg-main-white border-t-2 border-line-100 z-20">
+          <%= f.submit "削除する", class: "absolute right-[240px] text-center ml-auto mb-4 py-1 w-32 h-10 text-white font-bold bg-main-red rounded-md main-shadow hover:bg-main-redhover" %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

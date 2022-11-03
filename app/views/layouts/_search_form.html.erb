@@ -1,0 +1,30 @@
+<div class="flex items-center text-base text-[#989898]">
+  <%= embedded_svg('search-image', class: "mr-2") %>
+  絞り込み
+</div>
+<div data-controller="search-form" class="mb-12 w-full">
+  <div class="flex items-center justify-evenly gap-8 my-4 p-4 border border-line-100 rounded-md">
+    <div class="flex items-center gap-4">
+      <%= f.label :name_cont, "氏名", class: "text-main-black" %>
+      <%= f.search_field :name_cont, data: { search_form_target: "textForm" }, class: "w-[280px] border border-line-100 rounded-md" %>
+    </div>
+    <div class="flex items-center gap-4">
+      <%= f.label :grade_cont, "学年", class: "text-main-black" %>
+      <%= f.select :grade_cont, @event.members.pluck(:grade).uniq, { include_blank: "選択する" }, data: { search_form_target: "selectForm" }, class: "w-[160px] border border-line-100 rounded-md" %>
+    </div>
+    <div class="flex items-center gap-4">
+      <%= f.label :department_cont, "部局", class: "text-main-black" %>
+      <%= f.select :department_cont, @event.members.pluck(:department).uniq, { include_blank: "選択する" }, data: { search_form_target: "selectForm" }, class: "w-[200px] border border-line-100 rounded-md" %>
+    </div>
+    <div class="flex items-center gap-4">
+      <%= f.label :position_cont, "担当", class: "text-main-black" %>
+      <%= f.search_field :position_cont, data: { search_form_target: "textForm" }, class: "w-[280px] border border-line-100 rounded-md" %>
+    </div>
+  </div>
+  <div class="flex justify-end items-center gap-6 mt-6">
+    <button data-action="click->search-form#removeValue" type="button" class="text-main-blue text-sm hover:underline">
+      フォームをクリアする
+    </button>
+    <%= f.submit "検索する", class: "block text-center py-2 w-48 h-10 text-main-white bg-main-blue rounded-md main-shadow hover:bg-main-bluehover" %>
+  </div>
+</div>

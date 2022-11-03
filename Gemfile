@@ -81,4 +81,4 @@ end
 gem "devise"
 gem "roo"
 gem "enum_help"
-gem "dropzonejs-rails"
+gem "ransack"
