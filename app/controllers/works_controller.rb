@@ -13,8 +13,10 @@ class WorksController < ApplicationController
     event = Event.find(params[:event_id])
     work = Work.new(work_params(event.id))
     if work.save
+      flash[:notice] = "仕事を作成しました"
       redirect_to user_event_works_path(current_user.id, event.id)
     else
+      flash.now[:alert] = "仕事の作成に失敗しました"
       render action: :index
     end
   end
@@ -28,8 +30,10 @@ class WorksController < ApplicationController
     event = Event.find(params[:event_id])
     work = Work.find(params[:id])
     if work.update(work_params(event.id))
+      flash[:notice] = "仕事の編集をしました"
       redirect_to user_event_works_path(current_user.id, event.id)
     else
+      flash.now[:alert] = "仕事の編集に失敗しました"
       render action: :edit
     end
   end
@@ -38,8 +42,10 @@ class WorksController < ApplicationController
     event = Event.find(params[:event_id])
     work = Work.find(params[:id])
     if work.destroy
+      flash[:notice] = "仕事を削除しました"
       redirect_to user_event_works_path(current_user.id, event.id)
     else
+      flash.now[:alert] = "仕事の削除に失敗しました"
       render action: :edit
     end
   end

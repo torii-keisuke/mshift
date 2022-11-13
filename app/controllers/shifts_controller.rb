@@ -26,6 +26,7 @@ class ShiftsController < ApplicationController
         end
       end
     end
+    flash[:notice] = "シフトを作成しました"
     redirect_to user_event_shifts_path(current_user.id, event.id)
   end
 
@@ -55,8 +56,10 @@ class ShiftsController < ApplicationController
     event = Event.find(params[:event_id])
     shifts = Shift.where(event_id: event.id)
     if shifts.destroy_all
+      flash[:notice] = "シフトを削除しました"
       redirect_to user_event_shifts_path(current_user.id, event.id)
     else
+      flash.now[:alert] = "シフトの削除に失敗しました"
       render action: :index
     end
   end

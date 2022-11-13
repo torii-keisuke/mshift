@@ -3,6 +3,10 @@ class Member < ApplicationRecord
   belongs_to :event
 
   # validates :grade, inclusion: { in: Member.grades.keys }
+  validates :department, presence: true
+  validates :position, presence: true
+  validates :grade, presence: true
+  validates :name, presence: true
 
   scope :available, -> (event_id, schedule_id) { ((where(event_id: event_id).pluck(:id)) - (MembersSchedule.where(schedule_id: schedule_id).pluck(:member_id)) - (Shift.where(schedule_id: (schedule_id - 1)).pluck(:member_id)) - (Shift.where(schedule_id: (schedule_id + 1)).pluck(:member_id)) - (Shift.where(schedule_id: schedule_id).pluck(:member_id))) }
 

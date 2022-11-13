@@ -6,6 +6,8 @@
         <%= embedded_svg('shift-image', class: "mr-4") %>
         <div>シフト表</div>
       <% end %>
+      <% if @shifts.present? %>
+
       <button class="flex items-center w-full h-12 pl-4 hover:bg-[#6C7275] text-main-white" type="button" data-modal-toggle="defaultModal">
         <%= embedded_svg('staff-image', class: "mr-4") %>
         スタッフ管理
@@ -14,6 +16,16 @@
         <%= embedded_svg('work-image', class: "mr-4") %>
         仕事管理
       </button>
+      <% else %>
+        <%= link_to user_event_members_path(current_user.id, @event.id), class: "flex items-center h-12 pl-4 hover:bg-[#6C7275] text-main-white" do %>
+      <%= embedded_svg('staff-image', class: "mr-4") %>
+      <div>スタッフ管理</div>
+    <% end %>
+    <%= link_to user_event_works_path(current_user.id, @event.id), class: "flex items-center h-12 pl-4 hover:bg-[#6C7275] text-main-white" do %>
+      <%= embedded_svg('work-image', class: "mr-4") %>
+      <div>仕事管理</div>
+    <% end %>
+      <% end %>
       <%= link_to user_events_path(current_user.id), class: "flex items-center h-12 pl-4 hover:bg-[#6C7275] text-main-white" do %>
         <%= embedded_svg('shop-image', class: "mr-4") %>
         <div>イベント管理</div>

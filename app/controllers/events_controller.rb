@@ -22,8 +22,10 @@ class EventsController < ApplicationController
         Schedule.create(time_zone: event.start_time.strftime("%H:%M"), event_id: event.id)
         event.start_time += time_interval
       end
+      flash[:notice] = "イベントを作成しました"
       redirect_to user_events_path(current_user.id)
     else
+      flash.now[:alert] = "イベントの作成に失敗しました"
       render action: :index
     end
   end
@@ -35,8 +37,10 @@ class EventsController < ApplicationController
   def update
     event = Event.find(params[:id])
     if event.update(event_params)
+      flash[:notice] = "イベントの編集をしました"
       redirect_to user_events_path(current_user.id)
     else
+      flash.now[:alert] = "イベントの編集に失敗しました"
       render action: :edit
     end
   end
@@ -44,8 +48,10 @@ class EventsController < ApplicationController
   def destroy
     event = Event.find(params[:id])
     if event.destroy
+      flash[:notice] = "イベントを削除しました"
       redirect_to user_events_path(current_user.id)
     else
+      flash.now[:alert] = "イベントの削除に失敗しました"
       render action: :edit
     end
   end

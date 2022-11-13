@@ -36,8 +36,10 @@ class MembersController < ApplicationController
     event = Event.find(params[:event_id])
     member = Member.new(member_params(event.id))
     if member.save
+      flash[:notice] = "スタッフを追加しました。"
       redirect_to user_event_members_path(current_user.id, event.id)
     else
+      flash.now[:alert] = "スタッフの追加に失敗しました"
       render action: :index
     end
   end
@@ -51,14 +53,23 @@ class MembersController < ApplicationController
     @event = Event.find(params[:event_id])
     @member = Member.find(params[:id])
     if @member.update(member_params(@event.id))
+      flash[:notice] = "スタッフの編集をしました"
       redirect_to user_event_members_path(current_user.id, @event.id)
     else
+      flash.now[:alert] = "スタッフの編集に失敗しました"
       render action: :edit
     end
   end
 
-  def destroy
-
+  def destroy_together
+    members = Member.where(event_id: params[:event_id])
+    ActiveRecord::Base.transaction do
+      members.each do |member|
+        member.destroy!
+      end
+    end
+    flash[:notice] = "スタッフを削除しました"
+    redirect_to user_event_members_path(current_user.id, params[:event_id])
   end
 
   private

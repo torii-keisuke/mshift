@@ -42,7 +42,7 @@
                 <% @schedules.each do |schedule| %>
                   <% if MembersSchedule.exists?(schedule_id: schedule.id, member_id: member.id) %>
                     <td class="border-r border-line-100 bg-main-blue">
-                      <div class="text-white font-bold">必要</div>
+                      <div class="text-white font-bold">休み</div>
                     </td>
                   <% else %>
                     <td class="border-r border-line-100 pb-1">

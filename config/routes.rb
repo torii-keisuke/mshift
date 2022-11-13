@@ -23,6 +23,7 @@ Rails.application.routes.draw do
         collection do
           post :import
           delete :remove_member_list
+          delete :destroy_together
         end
       end
       resources :members_schedules do

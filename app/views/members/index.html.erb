@@ -4,7 +4,6 @@
     <%= render partial: "layouts/sidebar" %>
   </div>
   <div class="pt-[72px] pl-[184px] pb-[88px]">
-    <%= render partial: "layouts/flash" %>
     <div class="px-14 pb-14">
       <h1 class="mt-10 mb-8 text-2xl font-bold">スタッフ管理</h1>
       <% if @event.members.present? %>
@@ -42,7 +41,9 @@
               <td>
                 <%= member.position %>
               </td>
-              <td><%= link_to "編集", edit_user_event_member_path(current_user.id, @event.id, member.id), class: "text-main-blue hover:underline" %></td>
+              <td>
+                <%= link_to "編集", edit_user_event_member_path(current_user.id, @event.id, member.id), class: "text-main-blue hover:underline" %>
+              </td>
             </tr>
           <% end %>
         </table>
@@ -55,9 +56,12 @@
       <% end %>
       <div class="fixed bottom-0 left-[184px] w-full h-[88px] bg-main-white border-t-2 border-line-100 z-20">
         <!-- Modal toggle -->
-        <button class="block ml-14 py-8 text-xl text-main-blue leading-none hover:underline" type="button" data-modal-toggle="defaultModal">
-          スタッフを追加する
-        </button>
+        <div class="flex gap-8">
+          <button class="block ml-14 py-8 text-xl text-main-blue leading-none hover:underline" type="button" data-modal-toggle="defaultModal">
+            スタッフを追加する
+          </button>
+          <%= button_to "スタッフをまとめて削除", destroy_together_user_event_members_path(current_user.id, @event.id), method: :delete, class: "block ml-14 py-8 text-xl text-main-red leading-none hover:underline" %>
+        </div>
         <%= link_to "スタッフのシフトを設定する", user_event_members_schedules_path(current_user.id, @event.id), class: "absolute right-[296px] bottom-[22px] py-2 px-4 h-10 w-[240px] text-main-white bg-main-blue rounded-md main-shadow hover:bg-main-bluehover" %>
       </div>
     </div>

@@ -19,6 +19,7 @@ class MembersSchedulesController < ApplicationController
     time_zones&.each do |time_zone|
       MembersSchedule.create(member_id: time_zone.split[0], schedule_id: time_zone.split[1], event_id: event.id)
     end
+    flash[:notice] = "スタッフのシフトを設定しました"
     redirect_to user_event_members_schedules_path(current_user.id, event.id)
   end
 
@@ -38,6 +39,7 @@ class MembersSchedulesController < ApplicationController
         members_schedule.destroy!
       end
     end
+    flash[:notice] = "スタッフのシフト設定を削除しました"
     redirect_to edit_members_schedules_user_event_members_schedules_path(current_user.id, event.id)
   end
 end

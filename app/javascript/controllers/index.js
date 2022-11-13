@@ -10,5 +10,8 @@ application.register("file-form", FileFormController)
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 
+import MultiSelectController from "./multi_select_controller"
+application.register("multi-select", MultiSelectController)
+
 import SearchFormController from "./search_form_controller"
 application.register("search-form", SearchFormController)
