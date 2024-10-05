@@ -19,22 +19,29 @@
         <%= form_with model: @members_schedule, url: destroy_together_user_event_members_schedules_path(current_user.id, @event.id), method: :delete, data: { turbo: false } do |f| %>
           <table class="border-r border-l border-t border-line-100">
             <tr>
-              <th width="120px" height="32px" class="bg-[#EBEBEB] border-r border-b border-line-100 min-w-[120px]"></th>
-              <% @schedules.each do |schedule| %>
-                <th width="120px" height="32px" class="bg-[#EBEBEB] border-r border-b border-line-100 leading-none min-w-[72px] w-[72px]">
+              <th width="120px" height="32px" class="bg-[#EBEBEB] border-r border-b border-line-100 min-w-[120px]">
+                <div class="flex justify-center items-center gap-x-2">
+                  <input type="checkbox" class="" id="all-select" onchange="allCheck()">
+                  <label for="all-select">すべて選択</label>
+                </div>
+              </th>
+              <% @schedules.each_with_index do |schedule, i| %>
+                <th width="120px" height="32px" onmouseover="columnMouseover(this.id)" onmouseleave="columnMouseleave(this.id)" id="<%= i %>" name="js-hover-<%= i %>" class="bg-[#EBEBEB] border-r border-b border-line-100 leading-none min-w-[72px] w-[72px]">
                   <%= schedule.time_zone %>
+                  <input type="checkbox" id="js-column-input-<%= i %>" value="<%= i %>" onchange="columnCheck(this.value)">
                 </th>
               <% end %>
             </tr>
-            <% @members.each do |member| %>
-              <tr height="32px" width="120px" align="center" class="text-base font-bold">
+            <% @members.each_with_index do |member, i| %>
+              <tr height="32px" width="120px" align="center" name="js-line-hover-<%= i %>" id="<%= i %>" onmouseover="lineMouseover(this.id)" onmouseleave="lineMouseleave(this.id)" class="text-base font-bold">
                 <td class="border-r border-b border-line-100 text-main-black">
                   <%= member.name %>
+                  <input type="checkbox" id="js-line-input-<%= i %>" value="<%= i %>" onchange="lineCheck(this.value)">
                 </td>
-                <% @schedules.each do |schedule| %>
+                <% @schedules.each_with_index do |schedule, t| %>
                   <% if MembersSchedule.exists?(schedule_id: schedule.id, member_id: member.id) %>
-                    <td class="pb-1 border-r border-b border-line-100">
-                      <%= f.check_box :members_schedule_ids, { multiple: true, include_hidden: false, class: "", }, [member.id, schedule.id] %>
+                    <td onmouseover="columnMouseover(this.id)" onmouseleave="columnMouseleave(this.id)" id="<%= t %>" name="js-hover-<%= t %>" class="pb-1 border-r border-b border-line-100">
+                      <%= f.check_box :members_schedule_ids, { multiple: true, include_hidden: false, class: "js-all-check js-line-checks-#{ i } js-column-checks-#{ t }" }, [member.id, schedule.id] %>
                     </td>
                   <% else %>
                     <td class="border-r border-b border-line-100 pb-1 bg-[#A9A9A9]"></td>
@@ -51,3 +58,56 @@
     </div>
   </div>
 </div>
+<script>
+  function allCheck(){
+    const checkboxes = document.querySelectorAll("input.js-all-check")
+    const mainInput = document.querySelector("input#all-select")
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = mainInput.checked;
+    });
+  }
+
+  function lineCheck(e) {
+    const mainInput = document.getElementById(`js-line-input-${e}`)
+    const checkboxes = document.querySelectorAll(`input.js-line-checks-${e}`)
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = mainInput.checked;
+    });
+  }
+
+  function columnCheck(e) {
+    const mainInput = document.getElementById(`js-column-input-${e}`)
+    const checkboxes = document.querySelectorAll(`input.js-column-checks-${e}`)
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = mainInput.checked;
+    });
+  }
+
+  function lineMouseover(id){
+    const hoverElement = document.getElementsByName(`js-line-hover-${id}`)
+    hoverElement.forEach((el) => {
+      el.style.background = 'orange'
+    })
+  }
+
+  function lineMouseleave(id){
+    const hoverElement = document.getElementsByName(`js-line-hover-${id}`)
+    hoverElement.forEach((el) => {
+      el.style.background = ''
+    })
+  }
+
+  function columnMouseover(id){
+    const hoverElement = document.getElementsByName(`js-hover-${id}`)
+    hoverElement.forEach((el) => {
+      el.style.backgroundColor = 'orange';
+    })
+  }
+
+  function columnMouseleave(id){
+    const hoverElement = document.getElementsByName(`js-hover-${id}`)
+    hoverElement.forEach((el) => {
+      el.style.backgroundColor = '';
+    })
+  }
+</script>

@@ -13,8 +13,8 @@ class WorksSchedulesController < ApplicationController
 
   def edit_works_schedules
     @event = Event.find(params[:event_id])
-    @schedules = Schedule.where(event_id: @event.id)
-    @works = Work.where(event_id: @event.id)
+    @schedules = Schedule.preload(:event).where(event_id: @event.id)
+    @works = Work.preload(:event).where(event_id: @event.id)
   end
 
   def destroy

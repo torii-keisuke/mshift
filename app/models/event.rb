@@ -4,6 +4,7 @@ class Event < ApplicationRecord
   has_many :works, dependent: :destroy
   has_many :members, dependent: :destroy
   has_many :schedules, dependent: :destroy
+  has_many :members_schedules, dependent: :destroy
 
   validates :name, presence: true
   validates :opening_date, presence: true
