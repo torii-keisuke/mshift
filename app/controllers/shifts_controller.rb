@@ -2,32 +2,45 @@ class ShiftsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @event = Event.find(params[:event_id])
-    @schedules = Schedule.where(event_id: @event.id)
-    @members = Member.where(event_id: @event.id)
-    @works = Work.where(event_id: @event.id)
-    @shifts = Shift.where(event_id: @event.id)
+    begin
+      @event = Event.find(params[:event_id])
+      @schedules = Schedule.preload(:event).where(event_id: @event.id)
+      @members = Member.preload(:event).where(event_id: @event.id)
+      @works = Work.preload(:event).where(event_id: @event.id)
+      @shifts = Shift.where(event_id: @event.id)
+    rescue
+    end
   end
 
   def create
     event = Event.find(params[:event_id])
     works = Work.where(event_id: event.id)
     schedules = Schedule.where(event_id: event.id)
-    works.each do |work|
-      schedules.each do |schedule|
-        if WorksSchedule.exists?(schedule_id: schedule.id, work_id: work.id)
-          shift = Shift.new(
-            work_id: work.id,
-            schedule_id: schedule.id,
-            member_id: ((Member.where(event_id: event.id).pluck(:id)) - (MembersSchedule.where(schedule_id: schedule.id).pluck(:member_id)) - (Shift.where(schedule_id: (schedule.id - 1)).pluck(:member_id)) - (Shift.where(schedule_id: (schedule.id + 1)).pluck(:member_id)) - (Shift.where(schedule_id: schedule.id).pluck(:member_id))).sort_by{ rand }.first,
-            event_id: event.id
-          )
-          next unless shift.save
+    members = Member.where(event_id: event.id).pluck(:id)
+    begin
+      works.each do |work|
+        schedules.each do |schedule|
+          if WorksSchedule.exists?(schedule_id: schedule.id, work_id: work.id)
+            shift = Shift.new(
+              work_id: work.id,
+              schedule_id: schedule.id,
+              member_id: (members -
+                (MembersSchedule.where(schedule_id: schedule.id).pluck(:member_id)) -
+                (Shift.where(schedule_id: (schedule.id - 1)).pluck(:member_id)) -
+                (Shift.where(schedule_id: (schedule.id + 1)).pluck(:member_id)) -
+                (Shift.where(schedule_id: schedule.id).pluck(:member_id))).sort_by{ rand }.first,
+              event_id: event.id
+            )
+            next unless shift.save
+          end
         end
       end
+      flash[:notice] = "シフトを作成しました。"
+      redirect_to user_event_shifts_path(current_user.id, event.id)
+    rescue => e
+      flash[:notice] = "シフトの作成に失敗しました。#{e.class}"
+      redirect_to user_event_shifts_path(current_user.id, event.id)
     end
-    flash[:notice] = "シフトを作成しました"
-    redirect_to user_event_shifts_path(current_user.id, event.id)
   end
 
   def edit
@@ -62,5 +75,9 @@ class ShiftsController < ApplicationController
       flash.now[:alert] = "シフトの削除に失敗しました"
       render action: :index
     end
+  end
+
+  def get_member_number
+
   end
 end

@@ -10,43 +10,43 @@
         <%= search_form_for @q, url: user_event_members_path(current_user.id, @event.id) do |f| %>
           <%= render partial: "layouts/search_form", locals: { f: f } %>
         <% end %>
-        <div class="w-full overflow-x-scroll">
-        <table class="w-full border-y-2">
-          <tr height="48px" class="">
-            <th class="w-[36%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
-              氏名
-            </th>
-            <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
-              学年
-            </th>
-            <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
-              部局
-            </th>
-            <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
-              役職・担当
-            </th>
-            <th class="w-[10%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]"></th>
-          </tr>
-          <% @members.each do |member| %>
-            <tr height="64px" align="center" class="w-full text-base font-bold text-main-black border-b-2">
-              <td>
-                <%= member.name %>
-              </td>
-              <td>
-                <%= member.grade %>
-              </td>
-              <td>
-                <%= member.department %>
-              </td>
-              <td>
-                <%= member.position %>
-              </td>
-              <td>
-                <%= link_to "編集", edit_user_event_member_path(current_user.id, @event.id, member.id), class: "text-main-blue hover:underline" %>
-              </td>
+        <div class="w-full overflow-y-scroll h-[400px]">
+          <table class="w-full border-y-2">
+            <tr height="48px" class="">
+              <th class="w-[36%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
+                氏名
+              </th>
+              <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
+                学年
+              </th>
+              <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
+                部局
+              </th>
+              <th class="w-[18%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]">
+                役職・担当
+              </th>
+              <th class="w-[10%] bg-[#EBEBEB] border-b-2 leading-none min-w-[120px]"></th>
             </tr>
-          <% end %>
-        </table>
+            <% @members.each do |member| %>
+              <tr height="64px" align="center" class="w-full text-base font-bold text-main-black border-b-2">
+                <td class="">
+                  <%= member.name %>
+                </td>
+                <td>
+                  <%= member.grade %>
+                </td>
+                <td>
+                  <%= member.department %>
+                </td>
+                <td>
+                  <%= member.position %>
+                </td>
+                <td>
+                  <%= link_to "編集", edit_user_event_member_path(current_user.id, @event.id, member.id), class: "text-main-blue hover:underline" %>
+                </td>
+              </tr>
+            <% end %>
+          </table>
         </div>
       <% else %>
         <div class="flex flex-col justify-center items-center w-full pt-10">
@@ -157,4 +157,3 @@
     </div>
   </div>
 </div>
-<div></div>

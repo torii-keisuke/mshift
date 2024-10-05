@@ -9,3 +9,7 @@
 .main-shadow:hover {
   box-shadow: 2px 3px 4px #a9a9a9;
 }
+
+.main-table tr:hover td {
+  background-color: #d9efff;
+}

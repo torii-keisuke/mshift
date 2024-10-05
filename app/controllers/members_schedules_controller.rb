@@ -1,16 +1,24 @@
 class MembersSchedulesController < ApplicationController
   before_action :authenticate_user!
 
+  # def index
+  #   @event = Event.find(params[:event_id])
+  #   @q = Member.preload(:event).where(event_id: @event.id).ransack(params[:q])
+  #   @members = @q.result
+  #   @schedules = Schedule.preload(:event).where(event_id: @event.id)
+  #   @members_schedules = MembersSchedule.preload(:event).where(event_id: @event.id)
+  # end
+
   def index
     @event = Event.find(params[:event_id])
-    @q = Member.where(event_id: @event.id).ransack(params[:q])
+
+    # メンバーのクエリを効率化し、Eager Loadingを適用
+    @q = Member.includes(:event).where(event_id: @event.id).ransack(params[:q])
     @members = @q.result
-    @member = Member.new
-    @schedules = Schedule.where(event_id: @event.id)
-    respond_to do |format|
-      format.html
-      format.json
-    end
+
+    # スケジュールもEager Loadingを適用
+    @schedules = @event.schedules
+    @members_schedules = @event.members_schedules
   end
 
   def create
@@ -25,8 +33,8 @@ class MembersSchedulesController < ApplicationController
 
   def edit_members_schedules
     @event = Event.find(params[:event_id])
-    @schedules = Schedule.where(event_id: @event.id)
-    @q = Member.where(event_id: @event.id).ransack(params[:q])
+    @schedules = Schedule.preload(:event).where(event_id: @event.id)
+    @q = Member.preload(:event).where(event_id: @event.id).ransack(params[:q])
     @members = @q.result
   end
 

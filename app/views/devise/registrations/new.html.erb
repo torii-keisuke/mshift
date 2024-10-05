@@ -4,34 +4,7 @@
   </div>
   <div class="mt-14 pt-12 pb-14 px-8 border-2 border-line-100 rounded-xl shadow-lg">
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-    <%#= form_with model: @user, url: user_registration_path, id: 'new_user', class: 'new_user', local: true do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
-      <!--
-      <div class="mb-10">
-        <%= f.fields_for :festivals do |festival| %>
-          <div class="mb-6">
-            <%= festival.label :title, "イベント名", class: "block mb-4 text-base text-main-black leading-none" %>
-            <%= festival.text_field :title, placeholder: "例）三重大学祭〜繋笑〜", class: "block w-full h-10 px-2 text-main-black border border-line-100 rounded-md placeholder-line-100" %>
-          </div>
-          <div class="flex gap-12 w-full">
-            <%= festival.fields_for :day_times do |day_time| %>
-              <div class="w-1/2">
-                <%= day_time.label :opening_date, "日時", class: "block mb-4 text-base text-main-black leading-none" %>
-                <%= day_time.date_field :opening_date, placeholder: "1日目", class: "block w-full h-10 px-2 text-main-black border border-line-100 rounded-md" %>
-              </div>
-              <div class="w-1/2">
-                <%= day_time.label :start_time, "業務時間", class: "block mb-4 text-base text-main-black leading-none" %>
-                <div class="flex justify-center items-center w-full">
-                  <%= day_time.time_select :start_time, {:include_blank => true, :minute_step => 30}, class: "block w-2/5 h-10 px-2 text-main-black border border-line-100 rounded-md" %>
-                  <div class="w-1/5 text-center text-line-100">〜</div>
-                  <%= day_time.time_select :finish_time, {:include_blank => true, :minute_step => 30}, class: "block w-2/5 h-10 px-2 text-main-black border border-line-100 rounded-md" %>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-      -->
       <div class="w-full">
         <div class="mb-8">
           <%= f.label :name, "氏名", class: "block mb-4 w-fit text-base text-main-black leading-none" %>

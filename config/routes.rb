@@ -32,7 +32,12 @@ Rails.application.routes.draw do
           delete :destroy_together
         end
       end
-      resources :works, only: [:index, :create, :edit, :update, :destroy]
+      resources :works, only: [:index, :create, :edit, :update, :destroy] do
+        collection do
+          post :import
+          delete :destroy_together
+        end
+      end
       resources :works_schedules do
         collection do
           get :edit_works_schedules
