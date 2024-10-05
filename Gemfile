@@ -63,6 +63,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'annotate'
   gem "bullet"
+  gem "ruby-lsp"
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
